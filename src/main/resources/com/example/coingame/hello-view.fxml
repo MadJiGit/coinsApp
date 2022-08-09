@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.GridPane?>
+<BorderPane maxHeight="-Infinity"
+            maxWidth="-Infinity"
+            minHeight="-Infinity"
+            minWidth="-Infinity"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.coingame.HelloController">
+        <left>
+            <HBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #C9FFFF"
+                  prefHeight="100.0"
+                  prefWidth="240.0">
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                </padding>
+
+                <Label fx:id="welcomeText"/>
+                <Button text="Hello!" onAction="#onHelloButtonClick"/>
+
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                </padding>
+
+                <Label fx:id="goodBayText"/>
+                <Button text="Hello 222!" onAction="#onGoodBayButtonClick"/>
+            </HBox>
+        </left>
+    <center>
+            <GridPane>
+                <children>
+                    <Label text="My Label">
+                        <GridPane.rowIndex>0</GridPane.rowIndex>
+                        <GridPane.columnIndex>0</GridPane.columnIndex>
+                    </Label>
+                </children>
+        </GridPane>
+    </center>
+    <right>
+        <HBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #FBFECB"
+              prefHeight="100.0"
+              prefWidth="240.0">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            </padding>
+
+            <Label fx:id="welcomeRightText"/>
+            <Button text="Hello!" onAction="#onHelloButtonClick"/>
+
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            </padding>
+
+            <Label fx:id="goodBayRightText"/>
+            <Button text="Hello 222!" onAction="#onGoodBayButtonClick"/>
+        </HBox>
+    </right>
+</BorderPane>
