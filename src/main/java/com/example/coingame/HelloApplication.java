@@ -3,10 +3,7 @@ package com.example.coingame;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -80,8 +77,22 @@ public class HelloApplication extends Application {
         window.show();
     }
 
+    private void addButtonClicked(TextField nameInput, TextField assetIdInput, TextField volumeInput, TextField purchasePriceInput) {
+        Coin c = new Coin(
+                nameInput.getText(),
+                assetIdInput.getText(),
+                Double.valueOf(purchasePriceInput.getText()),
+                Double.valueOf(volumeInput.getText())
+        );
+
+        coinData.addCoin(coinData.getMyCoinsList(), c);
+        refreshTable();
+    }
+
     private void refreshTable() {
+
         table.getItems().clear();
+        coinData.prepareObservableList();
         //table.refresh();
         fillTable();
     }
@@ -89,6 +100,15 @@ public class HelloApplication extends Application {
     private void drawTable(Stage stage) {
         window = stage;
         window.setTitle("COINS");
+
+        window.setOnCloseRequest(e -> {
+            e.consume();
+            try {
+                closeProgram();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
         nameColumn = new TableColumn<>("Name");
         nameColumn.setMinWidth(100);
@@ -140,16 +160,36 @@ public class HelloApplication extends Application {
 
     }
 
-    private void addButtonClicked(TextField nameInput, TextField assetIdInput, TextField volumeInput, TextField purchasePriceInput) {
-        Coin c = new Coin(
-                nameInput.getText(),
-                assetIdInput.getText(),
-                Double.valueOf(purchasePriceInput.getText()),
-                Double.valueOf(volumeInput.getText())
-                );
+    private void closeProgram() throws IOException {
 
-        coinData.addCoin(coinData.getMyCoinsList(), c);
-        refreshTable();
+        Alert alert = new Alert(Alert.AlertType.NONE, ExceptionMessages.DO_YOU_WANT_TO_SAVE_DATA, ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+        alert.showAndWait();
+
+        ButtonType result = alert.getResult();
+        if (ButtonType.YES.equals(result)) {
+           try {
+               if(db.saveDataToFile(coinData.getMyCoinsList())){
+                   showAlertWindow(Alert.AlertType.INFORMATION, ExceptionMessages.DATA_SAVE_SUCCESSFULLY, ButtonType.CLOSE);
+                   window.close();
+               }
+           } catch (IOException ex) {
+               showAlertWindow(Alert.AlertType.ERROR, ExceptionMessages.CAN_NOT_SAVE_DATA_TO_FILE, ButtonType.CLOSE);
+               throw new IOException("Can not save data!");
+           }
+        } else if (ButtonType.NO.equals(result)) {
+            window.close();
+        } else if (ButtonType.CANCEL.equals(result)) {
+            alert.close();
+        }
+    }
+
+    private void showAlertWindow(Alert.AlertType error, String msg, ButtonType bType){
+        Alert alert = new Alert(error, msg , bType);
+        alert.showAndWait();
+        ButtonType res = alert.getResult();
+        if(ButtonType.YES.equals(res)){
+            alert.close();
+        }
     }
 
 //    @Override

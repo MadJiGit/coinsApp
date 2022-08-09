@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.util.ArrayList;
 
 public class DB {
     CoinDataController coinData = CoinDataController.getInstance();
@@ -64,7 +65,7 @@ public class DB {
     }
 
 
-    public boolean saveDataToFile(Coin[] coins) throws IOException {
+    public boolean saveDataToFile(ArrayList<Coin> coins) throws IOException {
 
 
         try{
@@ -81,12 +82,18 @@ public class DB {
 
         try {
             new ObjectMapper().writeValue(new File(strPath), coins);
+            //testOnly();
+
         } catch (IOException e){
 
             throw new FileNotFoundException("Can not save data to file " + strPath + "!");
         }
 
         return true;
+    }
+
+    private void testOnly() throws IOException {
+        throw new IOException("PROBLEM!");
     }
 
     public void finishLoadDataDB(Callback callback) {

@@ -1,15 +1,7 @@
 package com.example.coingame;
 
 public class ExceptionMessages {
-    public static final String ASTRONAUT_NAME_NULL_OR_EMPTY = "Astronaut name cannot be null or empty.";
-
-    public static final String ASTRONAUT_OXYGEN_LESS_THAN_ZERO = "Cannot create Astronaut with negative oxygen!";
-
-    public static final String ASTRONAUT_INVALID_TYPE = "Astronaut type doesn't exists!";
-
-    public static final String ASTRONAUT_DOES_NOT_EXIST = "Astronaut %s doesn't exists!";
-
-    public static final String PLANET_ASTRONAUTS_DOES_NOT_EXISTS = "You need at least one astronaut to explore the planet!";
-
-    public static final String PLANET_NAME_NULL_OR_EMPTY = "Invalid name!";
+    public static final String CAN_NOT_SAVE_DATA_TO_FILE = "Can not save data to file!";
+    public static final String DO_YOU_WANT_TO_SAVE_DATA = "Do you want to save data?";
+    public static final String DATA_SAVE_SUCCESSFULLY = "Data save successfully to file!";
 }
