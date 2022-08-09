@@ -78,6 +78,29 @@ public class HelloApplication extends Application {
     }
 
     private void addButtonClicked(TextField nameInput, TextField assetIdInput, TextField volumeInput, TextField purchasePriceInput) {
+
+        boolean isDataValid = true;
+        if(!validateDouble(volumeInput)){
+            isDataValid = false;
+            showAlertWindow(Alert.AlertType.ERROR, ExceptionMessages.VOLUME_DATA_MUST_BE_NUMBER, ButtonType.OK);
+        }
+        if(!validateDouble(purchasePriceInput)){
+            isDataValid = false;
+            showAlertWindow(Alert.AlertType.ERROR, ExceptionMessages.PRICE_DATA_MUST_BE_DOUBLE, ButtonType.OK);
+        }
+        if(nameInput.getText().trim().isEmpty()){
+            isDataValid = false;
+            showAlertWindow(Alert.AlertType.ERROR, ExceptionMessages.NAME_MUST_BE_NOT_EMPTY, ButtonType.OK);
+        }
+        if(assetIdInput.getText().trim().isEmpty()){
+            isDataValid = false;
+            showAlertWindow(Alert.AlertType.ERROR, ExceptionMessages.ASSET_MUST_BE_NOT_EMPTY, ButtonType.OK);
+        }
+
+        if(!isDataValid){
+            return;
+        }
+
         Coin c = new Coin(
                 nameInput.getText(),
                 assetIdInput.getText(),
@@ -87,6 +110,16 @@ public class HelloApplication extends Application {
 
         coinData.addCoin(coinData.getMyCoinsList(), c);
         refreshTable();
+    }
+
+    private boolean validateDouble(TextField data)  {
+
+        try {
+            Double.parseDouble(data.getText());
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 
     private void refreshTable() {
