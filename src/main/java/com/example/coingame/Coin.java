@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 //@JsonIgnoreProperties(ignoreUnknown = true)
 public class Coin {
 
+    @JsonProperty("order_id")
+    public long orderId;
     // for both JSON objects
     @JsonProperty("name")
     public String name;
@@ -16,7 +18,7 @@ public class Coin {
     // for my coins JSON object
     @JsonProperty("purchase_price_usd")
     public Double purchasePriceUsd;
-    @JsonProperty("date_and_time_purchase")
+    @JsonProperty("purchase_date_and_time")
     public String purchaseDateAndTime;
     @JsonProperty("volume")
     public Double volume;
@@ -25,6 +27,7 @@ public class Coin {
     public Coin() {}
 
     public Coin(String name, String assetId, Double purchasePriceUsd, Double volume) {
+        this.setOrderId();
         this.setName(name);
         this.setAssetId(assetId);
         this.setPurchasePriceUsd(purchasePriceUsd);
@@ -32,7 +35,13 @@ public class Coin {
         this.setVolume(volume);
     }
 
+    private void setOrderId() {
+        this.orderId = DataAndTime.getEpochMilliSeconds();
+    }
 
+    public long getOrderId(){
+        return this.orderId;
+    }
 
     public String getName() {
         return name;

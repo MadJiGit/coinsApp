@@ -3,8 +3,11 @@ package resources;
 import com.example.coingame.Callback;
 import com.example.coingame.Coin;
 import com.example.coingame.CoinDataController;
+import com.example.coingame.ExceptionMessages;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -16,7 +19,7 @@ public class DB {
     private Callback callbackDB;
     Path path;
     String strPath = "C:\\Users\\raykov\\IdeaProjects\\CoinGame\\src\\myCoins.json";
-    String copyPath = "C:\\Users\\raykov\\IdeaProjects\\CoinGame\\src\\temp_myCoins.json";
+    String copyPath = "C:\\Users\\raykov\\IdeaProjects\\CoinGame\\src\\reserveCopyOfMyCoinsFile.json";
 
     public void makeDBConnection() throws FileNotFoundException {
 
@@ -67,29 +70,43 @@ public class DB {
 
     public boolean saveDataToFile(ArrayList<Coin> coins) throws IOException {
 
+        // make reserve copy of file before clear data
+        makeReserveCopyOfData(strPath, copyPath);
 
-        try{
-           Files.copy(Paths.get(strPath), Paths.get(copyPath), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException ex) {
-            throw new IOException("Can not create temp file!");
+        // Try to write data to main file
+        try {
+           // new ObjectMapper().writeValue(new File(strPath), coins);
+            testOnly();
+            clearDataFile(copyPath);
+
+        } catch (IOException e){
+            // If write new data is not possible try to revert data from reserve copy
+            makeReserveCopyOfData(copyPath, strPath);
+            throw new FileNotFoundException("Can not save data to file " + strPath + "!");
         }
 
+        return true;
+    }
+
+
+    private void makeReserveCopyOfData(String source, String destination) throws IOException {
+        try{
+            Files.copy(Paths.get(source), Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
+            // if copy is successfully created
+            // clear data from main file
+            clearDataFile(source);
+        } catch (IOException ex) {
+            ExceptionMessages.showAlertWindow(Alert.AlertType.ERROR, ExceptionMessages.ERROR_COPY_FILE, ButtonType.OK);
+            throw new IOException("Can not save data to file " + source + "!");
+        }
+    }
+
+    private void clearDataFile(String strPath) throws IOException {
         FileWriter fw = new FileWriter(strPath, false);
         PrintWriter pw = new PrintWriter(fw, false);
         pw.flush();
         pw.close();
         fw.close();
-
-        try {
-            new ObjectMapper().writeValue(new File(strPath), coins);
-            //testOnly();
-
-        } catch (IOException e){
-
-            throw new FileNotFoundException("Can not save data to file " + strPath + "!");
-        }
-
-        return true;
     }
 
     private void testOnly() throws IOException {

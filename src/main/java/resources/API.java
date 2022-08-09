@@ -51,7 +51,6 @@ public class API {
 //            public void run() {
         String result;
         URL url = new URL("https://rest.coinapi.io/v1/assets?apikey=3CCDC3B6-F709-4544-86F9-69888FB0C543");
-       // URL urlAssetsIds = new URL("https://rest.coinapi.io/v1/assets?apikey=3CCDC3B6-F709-4544-86F9-69888FB0C543");
         String strPath = "C:\\Users\\raykov\\IdeaProjects\\CoinGame\\src\\file.json";
         Path path;
 

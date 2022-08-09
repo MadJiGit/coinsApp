@@ -2,6 +2,8 @@ package com.example.coingame;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -84,6 +86,17 @@ public class CoinDataController {
         observableList.addAll(myCoins);
     }
 
+    public Coin findCoinWithId(long id){
+        for (Coin c: myCoins) {
+            if (c.getOrderId() == id){
+                return c;
+            }
+        }
+
+        ExceptionMessages.showAlertWindow(Alert.AlertType.WARNING, ExceptionMessages.NO_COIN_WITH_ID, ButtonType.OK);
+
+        return null;
+    }
 
     public void setObservableList() {
         int counter = 0;
@@ -113,8 +126,8 @@ public class CoinDataController {
         }
     }
 
-    public boolean deleteCoin(ArrayList<Coin> myCoins, int coinId) {
-        return true;
+    public boolean deleteCoin( long coinId) {
+        return myCoins.removeIf(c -> c.getOrderId() == coinId);
     }
 
     public void deleteArray(ArrayList<Coin> coins) {

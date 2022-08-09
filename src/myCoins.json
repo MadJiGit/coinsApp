@@ -1,0 +1,55 @@
+[
+  {
+    "order_id": 1,
+    "asset_id": "USD",
+    "name": "US Dollar",
+    "type_is_crypto": 0,
+    "purchase_price_usd": 0,
+    "purchase_date_and_time": 0,
+    "volume": 0
+  },
+  {
+    "order_id": 2,
+    "asset_id": "BTC",
+    "name": "Bitcoin",
+    "type_is_crypto": 1,
+    "purchase_price_usd": 0,
+    "purchase_date_and_time": 0,
+    "volume": 0
+  },
+  {
+    "order_id": 3,
+    "asset_id": "PLN",
+    "name": "Zloty",
+    "type_is_crypto": 0,
+    "purchase_price_usd": 0,
+    "purchase_date_and_time": 0,
+    "volume": 0
+  },
+  {
+    "order_id": 4,
+    "asset_id": "EUR",
+    "name": "Euro",
+    "type_is_crypto": 0,
+    "purchase_price_usd": 0,
+    "purchase_date_and_time": 0,
+    "volume": 0
+  },
+  {
+    "order_id": 5,
+    "asset_id": "CNY",
+    "name": "Yuan Renminbi",
+    "type_is_crypto": 0,
+    "purchase_price_usd": 0,
+    "purchase_date_and_time": 0,
+    "volume": 0
+  },
+  {
+    "order_id": 6,
+    "asset_id": "JPY",
+    "name": "Yen",
+    "type_is_crypto": 0,
+    "purchase_price_usd": 0,
+    "purchase_date_and_time": 0,
+    "volume": 0
+  }]
