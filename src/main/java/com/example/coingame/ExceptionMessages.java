@@ -17,6 +17,8 @@ public class ExceptionMessages {
     public static final String DATA_IS_NOT_DELETED = "Data is not deleted!";
     public static final String DO_YOU_WANT_TO_DELETE_DATA = "Do you really want to delete that data?";
 
+
+
     public static void showAlertWindow(Alert.AlertType error, String msg, ButtonType bType){
         Alert alert = new Alert(error, msg , bType);
         alert.showAndWait();

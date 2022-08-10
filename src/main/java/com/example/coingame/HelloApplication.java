@@ -58,7 +58,7 @@ public class HelloApplication extends Application {
         api = new API();
         Callback callbackApi = new CallbackImpl();
         api.finishLoadDataApi(callbackApi);
-        api.makeApiConnectionAssetsIds(assetsIdList);
+        api.makeApiConnectionForAssetsIds(assetsIdList);
     }
 
     private void loadDataFromDB() throws FileNotFoundException {
@@ -128,13 +128,16 @@ public class HelloApplication extends Application {
             return;
         }
 
-        Alert a = new Alert(Alert.AlertType.WARNING, ExceptionMessages.DO_YOU_WANT_TO_DELETE_DATA, ButtonType.YES, ButtonType.NO);
+        Coin cc = selected.get(0);
+        // ASK user for deleting data
+        String msg = String.format("Do you want to delete >>  %s  << coin?", cc.getName());
+        Alert a = new Alert(Alert.AlertType.WARNING, msg, ButtonType.YES, ButtonType.NO);
         a.showAndWait();
         if(a.getResult() == ButtonType.NO){
             return;
         }
 
-        Coin cc = selected.get(0);
+
         if (!coinData.deleteCoin(cc.getOrderId())) {
             ExceptionMessages.showAlertWindow(Alert.AlertType.WARNING, ExceptionMessages.DATA_IS_NOT_DELETED, ButtonType.OK);
             return;

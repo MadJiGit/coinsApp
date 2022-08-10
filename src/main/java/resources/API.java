@@ -22,9 +22,12 @@ public class API {
     CoinDataController coinData = CoinDataController.getInstance();
     private Callback callbackApi;
 
-    public void makeApiConnectionAssetsIds(ArrayList<String> coinsIds) throws MalformedURLException, FileNotFoundException {
+    public void makeApiConnectionForAssetsIds(ArrayList<String> coinsIds) throws MalformedURLException, FileNotFoundException {
+
         String result;
-        URL url = new URL("https://rest.coinapi.io/v1/assets?apikey=3CCDC3B6-F709-4544-86F9-69888FB0C543&filter_asset_id={coinsIDs}");
+        String strURL = Credentials.getAssetsFilteredByIds(coinsIds);
+
+        URL url = new URL(strURL);
 
         try {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -45,14 +48,18 @@ public class API {
         }
     }
 
-    public void makeApiConnection() throws Exception {
+    public void makeApiConnectionWithAllAssets() throws Exception {
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
         String result;
-        URL url = new URL("https://rest.coinapi.io/v1/assets?apikey=3CCDC3B6-F709-4544-86F9-69888FB0C543");
+//        URL url = new URL("https://rest.coinapi.io/v1/assets?apikey=3CCDC3B6-F709-4544-86F9-69888FB0C543");
         String strPath = "C:\\Users\\raykov\\IdeaProjects\\CoinGame\\src\\file.json";
         Path path;
+
+        String strURL = Credentials.getAllAssets();
+
+        URL url = new URL(strURL);
 
         try {
             path = FileSystems.getDefault().getPath(strPath);

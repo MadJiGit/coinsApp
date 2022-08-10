@@ -46,7 +46,7 @@ public class CoinDataController {
     }
 
     public void setAssetsIdList() {
-        for (Coin c: apiCoins) {
+        for (Coin c : apiCoins) {
             assetsIdList.add(c.assetId);
         }
     }
@@ -72,9 +72,9 @@ public class CoinDataController {
     }
 
     public void updateDataInMyCoinList() {
-        for (Coin c: myCoins) {
-            for (Coin cc: apiCoins ){
-                if(Objects.equals(c.assetId, cc.assetId)){
+        for (Coin c : myCoins) {
+            for (Coin cc : apiCoins) {
+                if (Objects.equals(c.assetId, cc.assetId)) {
                     c.setCurrentPriceUsd(cc.getCurrentPriceUsd());
                 }
             }
@@ -86,9 +86,9 @@ public class CoinDataController {
         observableList.addAll(myCoins);
     }
 
-    public Coin findCoinWithId(long id){
-        for (Coin c: myCoins) {
-            if (c.getOrderId() == id){
+    public Coin findCoinWithId(long id) {
+        for (Coin c : myCoins) {
+            if (c.getOrderId() == id) {
                 return c;
             }
         }
@@ -126,7 +126,7 @@ public class CoinDataController {
         }
     }
 
-    public boolean deleteCoin( long coinId) {
+    public boolean deleteCoin(long coinId) {
         return myCoins.removeIf(c -> c.getOrderId() == coinId);
     }
 
@@ -134,9 +134,5 @@ public class CoinDataController {
         if (new String(String.valueOf(coins)).equals("apiCoins")) {
             apiCoins.clear();
         }
-
-
     }
-
-
 }
