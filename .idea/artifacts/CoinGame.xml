@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="CoinGame">
+    <output-path>$PROJECT_DIR$/mods/artifacts/CoinGame</output-path>
+    <root id="root">
+      <element id="archive" name="CoinGame.jar">
+        <element id="module-output" name="CoinGame" />
+      </element>
+    </root>
+  </artifact>
+</component>

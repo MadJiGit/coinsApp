@@ -1,6 +1,7 @@
 module com.example.coingame {
     requires javafx.controls;
     requires javafx.fxml;
+    requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.databind;
     requires org.json;
     requires json.simple;
