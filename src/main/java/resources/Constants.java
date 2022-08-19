@@ -9,4 +9,7 @@ public class Constants {
     public static final String TABLE_COLUMN_CURRENT_PRICE_USD = "current price USD";
     public static final String TABLE_COLUMN_PURCHASE_PRICE_USD = "purchase price USD";
     public static final String TABLE_COLUMN_DATE_PURCHASE = "date purchase";
+    public static final String API_MENU_NAME = "API";
+    public static final String MAIN_MENU_NAME = "Data";
+    public static final String DB_MENU_NAME = "DB";
 }

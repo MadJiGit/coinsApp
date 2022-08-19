@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -24,6 +25,11 @@ public class MainView {
     VBox vBox;
     HBox hBox;
     Scene scene;
+    Menu mainMenu;
+    Menu apiMenu;
+    Menu dbMenu;
+    MenuBar menuBar;
+    BorderPane headerPanel;
     CoinDataController coinData;
     DB db;
 
@@ -33,10 +39,24 @@ public class MainView {
         this.coinData = CoinDataController.getInstance();
         this.vBox = new VBox();
         this.hBox = new HBox();
+        this.mainMenu = new Menu(Constants.MAIN_MENU_NAME);
+        this.apiMenu = new Menu(Constants.API_MENU_NAME);
+        this.dbMenu = new Menu(Constants.DB_MENU_NAME);
+        menuBar = new MenuBar();
+        headerPanel = new BorderPane();
         this.drawTableBody();
         this.drawTableFooter();
         this.generateHBox();
+        drawTableHeaderPanel();
         this.fillTable();
+    }
+
+    private void drawTableHeaderPanel() {
+        mainMenu.getItems().add(apiMenu);
+        mainMenu.getItems().add(dbMenu);
+
+        menuBar.getMenus().addAll(mainMenu);
+        headerPanel.setTop(menuBar);
     }
 
     private void generateHBox() {
@@ -79,12 +99,13 @@ public class MainView {
             }
         });
 
-//        VBox vBox = new VBox();
-        this.vBox.getChildren().addAll(this.table, this.hBox);
+        // Add all parts of view
+        this.vBox.getChildren().addAll(this.headerPanel, this.table, this.hBox);
 
         this.scene = new Scene(this.vBox);
         this.mainStage.setScene(this.scene);
         this.mainStage.show();
+
     }
     private void drawTableFooter() {
         this.nameInput = new TextField();
