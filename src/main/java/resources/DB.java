@@ -1,20 +1,17 @@
 package resources;
 
-import com.example.coingame.Callback;
-import com.example.coingame.Coin;
-import com.example.coingame.CoinDataController;
-import com.example.coingame.ExceptionMessages;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.coingame.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.*;
 import java.util.ArrayList;
 
-public class DB {
+public class DB extends AbstractDataController {
     CoinDataController coinData = CoinDataController.getInstance();
     private Callback callbackDB;
     Path path;
@@ -30,43 +27,17 @@ public class DB {
             if(result.isEmpty()){
                 System.out.println("file is empty");
             } else {
-                Coin[] coins = parseJsonData(result);
+                Coin[] coins = (Coin[]) parseJsonData(result, Coin.class);
                 coinData.addList(coinData.getMyCoinsList(), coins);
             }
             if(callbackDB != null){
+//                callbackDB.getDataFromApi();
                 callbackDB.getDataFromApi();
             }
         } catch (IOException ex) {
             throw new FileNotFoundException("File with path " + strPath + " is not read properly!");
         }
     }
-
-    private static String readFileFromResources(Path path) throws IOException {
-
-        StringBuilder sb = new StringBuilder();
-
-        try {
-            final BufferedReader r = Files.newBufferedReader(path, StandardCharsets.UTF_8);
-            String str;
-            while ((str = r.readLine()) != null) {
-                sb.append(str);
-            }
-        } catch (IOException e) {
-            throw new IOException("Can not read file with Buff reader " + path + "!");
-        }
-        return sb.toString();
-    }
-
-    private Coin[] parseJsonData(String result) throws IOException {
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        Coin[] coins;
-
-        return coins = objectMapper.readValue(result, Coin[].class);
-    }
-
 
     public boolean saveDataToFile(ArrayList<Coin> coins) throws IOException {
 

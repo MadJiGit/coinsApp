@@ -16,7 +16,8 @@ public class ExceptionMessages {
     public static final String SUCCESSFULLY_DELETE_COIN = "Data is removed successfully!";
     public static final String DATA_IS_NOT_DELETED = "Data is not deleted!";
     public static final String DO_YOU_WANT_TO_DELETE_DATA = "Do you really want to delete that data?";
-
+    public static final String CREDENTIALS_NOT_SAVED = "Credentials are not saved!";
+    public static final String CREDENTIALS_SAVED_SUCCESSFUL = "Credentials saved successfully!";
 
 
     public static void showAlertWindow(Alert.AlertType error, String msg, ButtonType bType){

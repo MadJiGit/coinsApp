@@ -24,6 +24,9 @@ public class HelloApplication extends Application {
         // fill data arrays
         coinData.setAssetsIdList();
 
+        // for tests
+        ArrayList<String> c = coinData.getAssetsIdList();
+
         // get data from api with my coins ids
         loadDataFromApi(coinData.getAssetsIdList());
 

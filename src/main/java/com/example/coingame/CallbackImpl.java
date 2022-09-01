@@ -7,8 +7,8 @@ public class CallbackImpl implements Callback {
 
     }
 
-    @Override
-    public void getDataFromDB() {
-
-    }
+//    @Override
+//    public void getDataFromDB() {
+//
+//    }
 }

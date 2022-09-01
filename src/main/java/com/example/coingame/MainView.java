@@ -26,8 +26,8 @@ public class MainView {
     HBox hBox;
     Scene scene;
     Menu mainMenu;
-    Menu apiMenu;
-    Menu dbMenu;
+    Submenu apiMenu;
+    Submenu dbMenu;
     MenuBar menuBar;
     BorderPane headerPanel;
     CoinDataController coinData;
@@ -40,8 +40,13 @@ public class MainView {
         this.vBox = new VBox();
         this.hBox = new HBox();
         this.mainMenu = new Menu(Constants.MAIN_MENU_NAME);
+        /*
         this.apiMenu = new Menu(Constants.API_MENU_NAME);
         this.dbMenu = new Menu(Constants.DB_MENU_NAME);
+         */
+        this.apiMenu = new Submenu(Constants.API_MENU_NAME, mainStage);
+        this.dbMenu = new Submenu(Constants.DB_MENU_NAME, mainStage);
+
         menuBar = new MenuBar();
         headerPanel = new BorderPane();
         this.drawTableBody();
@@ -52,8 +57,8 @@ public class MainView {
     }
 
     private void drawTableHeaderPanel() {
-        mainMenu.getItems().add(apiMenu);
-        mainMenu.getItems().add(dbMenu);
+        mainMenu.getItems().add(apiMenu.getMenu());
+        mainMenu.getItems().add(dbMenu.getMenu());
 
         menuBar.getMenus().addAll(mainMenu);
         headerPanel.setTop(menuBar);

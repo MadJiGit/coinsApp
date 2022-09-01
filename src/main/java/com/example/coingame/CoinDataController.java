@@ -46,7 +46,7 @@ public class CoinDataController {
     }
 
     public void setAssetsIdList() {
-        for (Coin c : apiCoins) {
+        for (Coin c : myCoins) {
             assetsIdList.add(c.assetId);
         }
     }
