@@ -15,9 +15,13 @@ public class ExceptionMessages {
     public static final String NO_COIN_WITH_ID = "No such kind of coin!";
     public static final String SUCCESSFULLY_DELETE_COIN = "Data is removed successfully!";
     public static final String DATA_IS_NOT_DELETED = "Data is not deleted!";
+
     public static final String DO_YOU_WANT_TO_DELETE_DATA = "Do you really want to delete that data?";
     public static final String CREDENTIALS_NOT_SAVED = "Credentials are not saved!";
     public static final String CREDENTIALS_SAVED_SUCCESSFUL = "Credentials saved successfully!";
+    public static final String UPDATE_SUCCESSFULLY = "Data is updated successfully!";
+
+    public static final String LOAD_DATA_FROM_API_IS_NOT_SUCCESSFULLY = "Connection with API is with error!";
 
 
     public static void showAlertWindow(Alert.AlertType error, String msg, ButtonType bType){

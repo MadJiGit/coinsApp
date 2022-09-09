@@ -1,10 +1,7 @@
 package resources;
 
 
-import com.example.coingame.AbstractDataController;
-import com.example.coingame.Callback;
-import com.example.coingame.Coin;
-import com.example.coingame.CoinDataController;
+import com.example.coingame.*;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -114,5 +111,11 @@ public class API extends AbstractDataController {
         this.callbackApi = callback;
     }
 
+    public void loadDataFromApi() throws MalformedURLException, FileNotFoundException {
+        ArrayList<String> assetsIdList = coinData.getAssetsIdList();
+        Callback callbackApi = new CallbackImpl();
+        finishLoadDataApi(callbackApi);
+        makeApiConnectionForAssetsIds(assetsIdList);
+    }
 }
 

@@ -15,14 +15,11 @@ public class DB extends AbstractDataController {
     CoinDataController coinData = CoinDataController.getInstance();
     private Callback callbackDB;
     Path path;
-    String strPath = "C:\\Users\\raykov\\IdeaProjects\\CoinGame\\src\\myCoins.json";
-    String copyPath = "C:\\Users\\raykov\\IdeaProjects\\CoinGame\\src\\reserveCopyOfMyCoinsFile.json";
-
     public void makeDBConnection() throws FileNotFoundException {
 
         try {
             String result;
-            path = FileSystems.getDefault().getPath(strPath);
+            path = FileSystems.getDefault().getPath(Constants.MY_COIN_PATH_STRING);
             result = readFileFromResources(path);
             if(result.isEmpty()){
                 System.out.println("file is empty");
@@ -35,25 +32,25 @@ public class DB extends AbstractDataController {
                 callbackDB.getDataFromApi();
             }
         } catch (IOException ex) {
-            throw new FileNotFoundException("File with path " + strPath + " is not read properly!");
+            throw new FileNotFoundException("File with path " + Constants.MY_COIN_PATH_STRING + " is not read properly!");
         }
     }
 
     public boolean saveDataToFile(ArrayList<Coin> coins) throws IOException {
 
         // make reserve copy of file before clear data
-        makeReserveCopyOfData(strPath, copyPath);
+        makeReserveCopyOfData(Constants.MY_COIN_PATH_STRING, Constants.MY_COIN_PATH_STRING_COPY);
 
         // Try to write data to main file
         try {
            // new ObjectMapper().writeValue(new File(strPath), coins);
             testOnly();
-            clearDataFile(copyPath);
+            clearDataFile(Constants.MY_COIN_PATH_STRING_COPY);
 
         } catch (IOException e){
             // If write new data is not possible try to revert data from reserve copy
-            makeReserveCopyOfData(copyPath, strPath);
-            throw new FileNotFoundException("Can not save data to file " + strPath + "!");
+            makeReserveCopyOfData(Constants.MY_COIN_PATH_STRING_COPY, Constants.MY_COIN_PATH_STRING);
+            throw new FileNotFoundException("Can not save data to file " + Constants.MY_COIN_PATH_STRING + "!");
         }
 
         return true;
@@ -86,5 +83,11 @@ public class DB extends AbstractDataController {
 
     public void finishLoadDataDB(Callback callback) {
         this.callbackDB = callback;
+    }
+
+    public void loadDataFromDB() throws FileNotFoundException {
+        Callback callbackDb = new CallbackImpl();
+        finishLoadDataDB(callbackDb);
+        makeDBConnection();
     }
 }

@@ -2,14 +2,17 @@ package com.example.coingame;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import resources.API;
 import resources.Constants;
 import resources.DB;
 
@@ -20,28 +23,33 @@ public class MainView {
     Stage mainStage;
     TableColumn<Coin, String> nameColumn, assetIdColumn, priceUsdColumn, purchasePriceUsd, purchaseDateAndTime, volume;
     TextField nameInput, assetIdInput, volumeInput, purchasePriceInput;
-    Button addButton, deleteButton, editButton;
+    Button addButton, deleteButton, refreshButton;
     TableView<Coin> table;
     VBox vBox;
-    HBox hBox;
+    HBox hBox, menuBox, refreshButtonBox, headerBox;
     Scene scene;
     Menu mainMenu;
-    Submenu apiMenu;
-    Submenu dbMenu;
+    Submenu apiMenu, dbMenu;
     MenuBar menuBar;
     BorderPane headerPanel;
     CoinDataController coinData;
     DB db;
 
     public MainView(Stage mainStage, DB db) {
+        this.table = new TableView<>();
         this.mainStage = mainStage;
         this.db = db;
         this.coinData = CoinDataController.getInstance();
         this.vBox = new VBox();
         this.hBox = new HBox();
+        menuBox = new HBox();
+        refreshButtonBox = new HBox();
+        headerBox = new HBox();
+
         this.mainMenu = new Menu(Constants.MAIN_MENU_NAME);
         /*
-        this.apiMenu = new Menu(Constants.API_MENU_NAME);
+        this.apiMenu = new Men
+        u(Constants.API_MENU_NAME);
         this.dbMenu = new Menu(Constants.DB_MENU_NAME);
          */
         this.apiMenu = new Submenu(Constants.API_MENU_NAME, mainStage);
@@ -60,8 +68,28 @@ public class MainView {
         mainMenu.getItems().add(apiMenu.getMenu());
         mainMenu.getItems().add(dbMenu.getMenu());
 
+        refreshButton = new Button("REFRESH");
+        refreshButton.setOnAction(e -> refreshButtonClicked());
+        refreshButtonBox.setAlignment(Pos.CENTER_RIGHT);
+        refreshButtonBox.getChildren().addAll(refreshButton);
+
         menuBar.getMenus().addAll(mainMenu);
-        headerPanel.setTop(menuBar);
+        HBox.setHgrow(refreshButtonBox, Priority.ALWAYS);
+        refreshButtonBox.setPadding(new Insets(0, 10, 0, 0));
+        headerBox.getChildren().addAll(menuBar, refreshButtonBox);
+        headerPanel.setTop(headerBox);
+    }
+
+    private void refreshButtonClicked() {
+        API api = new API();
+        try {
+            api.loadDataFromApi();
+            refreshTable();
+            ExceptionMessages.showAlertWindow(Alert.AlertType.INFORMATION, ExceptionMessages.UPDATE_SUCCESSFULLY, ButtonType.OK);
+        } catch (Exception e) {
+            ExceptionMessages.showAlertWindow(Alert.AlertType.ERROR, ExceptionMessages.LOAD_DATA_FROM_API_IS_NOT_SUCCESSFULLY, ButtonType.OK);
+            throw new RuntimeException("Error when click refresh button!\n" + e);
+        }
     }
 
     private void generateHBox() {
@@ -77,8 +105,12 @@ public class MainView {
         );
     }
 
+    private void prepareObservableList(){
+        this.coinData.updateDataInMyCoinList();
+        this.coinData.prepareObservableList();
+    }
+
     private void fillTable() {
-        this.table = new TableView<>();
         this.table.setItems(this.coinData.getObservableList());
         this.table.getColumns().addAll(
                 this.nameColumn,
@@ -184,7 +216,7 @@ public class MainView {
         c.setPurchasePriceUsd(Double.valueOf(purchasePriceInput.getText()));
         c.setVolume(Double.valueOf(volumeInput.getText()));
 
-        this.refreshTable();
+        this.table.refresh();
         this.onAdd();
     }
 
@@ -297,15 +329,15 @@ public class MainView {
         this.volume.setCellValueFactory(new PropertyValueFactory<>("volumePurchase"));
 
         this.priceUsdColumn = new TableColumn<>(Constants.TABLE_COLUMN_CURRENT_PRICE_USD);
-        this.priceUsdColumn.setMinWidth(Constants.COLUMNS_WIDTH);
+        this.priceUsdColumn.setMinWidth(Constants.COLUMNS_LARGE_WIDTH);
         this.priceUsdColumn.setCellValueFactory(new PropertyValueFactory<>("currentPriceUsd"));
 
         this.purchasePriceUsd = new TableColumn<>(Constants.TABLE_COLUMN_PURCHASE_PRICE_USD);
-        this.purchasePriceUsd.setMinWidth(Constants.COLUMNS_WIDTH);
+        this.purchasePriceUsd.setMinWidth(Constants.COLUMNS_LARGE_WIDTH);
         this.purchasePriceUsd.setCellValueFactory(new PropertyValueFactory<>("purchasePriceUsd"));
 
         this.purchaseDateAndTime = new TableColumn<>(Constants.TABLE_COLUMN_DATE_PURCHASE);
-        this.purchaseDateAndTime.setMinWidth(Constants.COLUMNS_WIDTH);
+        this.purchaseDateAndTime.setMinWidth(Constants.COLUMNS_LARGE_WIDTH);
         this.purchaseDateAndTime.setCellValueFactory(new PropertyValueFactory<>("dateAndTimePurchase"));
     }
 
@@ -340,9 +372,11 @@ public class MainView {
         this.table.getItems().clear();
 
         // prepare updated data to show
-        this.coinData.prepareObservableList();
+        prepareObservableList();
 
         // prepare table
-        this.fillTable();
+//        this.fillTable();
+        this.table.refresh();
     }
 }
+// Yen JPY

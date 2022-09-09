@@ -13,7 +13,7 @@ public class CredentialsController extends AbstractDataController {
 
     static Credentials credentials;
     private static CredentialsController credentialsController = null;
-    private static final String strPath = "C:\\Users\\raykov\\IdeaProjects\\CoinGame\\src\\credentials.json";
+    //private static final String strPath = "C:\\Users\\raykov\\IdeaProjects\\CoinGame\\src\\credentials.json";
 
     //public static final String BASE_URL = "https://rest.coinapi.io/v1/";
     //public static final String API_KEY = "X-CoinAPI-Key";
@@ -24,7 +24,7 @@ public class CredentialsController extends AbstractDataController {
     private CredentialsController() throws FileNotFoundException {
         Path path = null;
         try {
-            path = FileSystems.getDefault().getPath(strPath);
+            path = FileSystems.getDefault().getPath(Constants.CREDENTIALS_PATH_STRING);
             String result = readFileFromResources(path);
 
             credentials = (Credentials) parseJsonData(result, Credentials.class)[0];
@@ -33,32 +33,6 @@ public class CredentialsController extends AbstractDataController {
             throw new FileNotFoundException("Connection with path " + path + " return with error");
         }
     }
-
-//    private Credentials parseJsonData(String result) throws IOException {
-//
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//
-//        Credentials[] credentials = objectMapper.readValue(result, Credentials[].class);
-//
-//        return credentials[0] ;
-//    }
-//
-//    private static String readFileFromResources(Path path) throws IOException {
-//
-//        StringBuilder sb = new StringBuilder();
-//
-//        try {
-//            final BufferedReader r = Files.newBufferedReader(path, StandardCharsets.UTF_8);
-//            String str;
-//            while ((str = r.readLine()) != null) {
-//                sb.append(str);
-//            }
-//        } catch (IOException e) {
-//            throw new IOException("Can not read file with Buff reader " + path + "!");
-//        }
-//        return sb.toString();
-//    }
 
     public static CredentialsController getInstance() throws FileNotFoundException {
         if (credentialsController == null){

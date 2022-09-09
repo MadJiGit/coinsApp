@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import resources.Constants;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -96,26 +97,22 @@ public class Submenu extends Menu {
     private void saveDataToFile(String baseUrl, String apiKeyValue) throws IOException {
 
         // make reserve copy of file before clear data
-        //makeReserveCopyOfData(strPath, copyPath);
-        String originPath = "C:\\Users\\raykov\\IdeaProjects\\CoinGame\\src\\credentials2.json";
-        String copyPath = "C:\\Users\\raykov\\IdeaProjects\\CoinGame\\src\\credentials2.json";
-
         // Try to write data to main file
 
-        makeReserveCopyOfData(originPath, copyPath);
+        makeReserveCopyOfData(Constants.CREDENTIALS_PATH_STRING, Constants.CREDENTIALS_PATH_STRING_COPY);
 
         Credentials c = new Credentials(baseUrl, apiKeyValue);
         ArrayList<Credentials> cArray = new ArrayList<>();
         cArray.add(c);
 
         try {
-            new ObjectMapper().writeValue(new File(originPath), cArray);
-            clearDataFile(copyPath);
+            new ObjectMapper().writeValue(new File(Constants.CREDENTIALS_PATH_STRING), cArray);
+            clearDataFile(Constants.CREDENTIALS_PATH_STRING_COPY);
         } catch (IOException e){
             // If write new data is not possible try to revert data from reserve copy
             //makeReserveCopyOfData(copyPath, strPath);
-            makeReserveCopyOfData(copyPath, originPath);
-            throw new FileNotFoundException("Can not save data to file " + originPath + "!");
+            makeReserveCopyOfData(Constants.CREDENTIALS_PATH_STRING_COPY, Constants.CREDENTIALS_PATH_STRING);
+            throw new FileNotFoundException("Can not save data to file " + Constants.CREDENTIALS_PATH_STRING + "!");
         }
 
     }
